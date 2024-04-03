@@ -6,13 +6,26 @@
 //
 
 import SwiftUI
+import SwiftfulRouting
 
 @main
 struct SwiftfulSwitUIinPracticeApp: App {
     var body: some Scene {
         WindowGroup {
-//            ContentView()
-            SpotifyHomeView()
+            RouterView{ _ in
+                ContentView()
+            }
         }
+    }
+}
+
+extension UINavigationController: UIGestureRecognizerDelegate{
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
     }
 }

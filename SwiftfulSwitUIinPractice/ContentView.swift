@@ -10,34 +10,25 @@ import SwiftfulUI
 import SwiftfulRouting
 
 struct ContentView: View {
-    @State private var users: [User] = []
-    @State private var products: [Product] = []
     
+    @Environment(\.router) var router
+
     var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(products) { product in
-                    Text(product.title)
+        List {
+            Button(action: {
+                router.showScreen(.fullScreenCover) { _ in
+                    SpotifyHomeView()
                 }
-            }
-            .padding()
-            .task {
-                await getData()
-        }
-        }
-    }
-    
-    private func getData() async {
-        do{
-            users = try await DatabaseHelper().getUsers()
-            products = try await DatabaseHelper().getProducts()
-        }
-        catch{
-            
+            }, label: {
+                Text("Open Spotify")
+            })
         }
     }
 }
 
+
 #Preview {
-    ContentView()
+    RouterView{ _ in
+        ContentView()
+    }
 }
